@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Test</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+
+  <script src="./modules/html2canvas.min.js"></script>
+  <script src="./modules/jspdf.min.js"></script>
+  <script src="./modules/jspdf.debug.js"></script>
+  <script src="./modules/chinese-normal.js"></script>
+</head>
+<body>
+  <div id="page" style="width: 595.28px;color: black;background: white;">
+    <h3>測試用PDF頁面</h3>
+    <p>這是一份測試用的PDF，用以將html轉換為pdf實作練習。</p>
+  </div>
+
+  <button class="btn btn-success m-5" onclick="html2PDF(document.getElementById('page'), {customFont: 'chinese'})">生成PDF</button>
+
+  <script src="index.js"></script>
+</body>
+</html>
