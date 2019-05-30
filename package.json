@@ -20,9 +20,5 @@
   "bugs": {
     "url": "https://github.com/johnnywang1994/jsPDF-html2canvas/issues"
   },
-  "homepage": "https://github.com/johnnywang1994/jsPDF-html2canvas#readme",
-  "dependencies": {
-    "html2canvas": "^1.0.0-rc.2",
-    "jspdf": "^1.5.3"
-  }
+  "homepage": "https://github.com/johnnywang1994/jsPDF-html2canvas#readme"
 }
