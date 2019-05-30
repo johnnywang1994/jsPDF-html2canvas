@@ -54,6 +54,8 @@ let pageData = canvas.toDataURL(opts.imageType, 1.0);
 
 define customFont if needed, eg: chinese's unicode, must be used with importing the font's js module.
 
+"chinese" font js file has been saved in modules folder, can be used directly.
+
 refer: https://rawgit.com/MrRio/jsPDF/master/fontconverter/fontconverter.html
 
 ```js
