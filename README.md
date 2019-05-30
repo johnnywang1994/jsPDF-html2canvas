@@ -3,6 +3,19 @@ A combine usage with jsPDF &amp; html2canvas, which translating html content to 
 
 Also contains chinese unicode font js files, which is made by jsPDF's ttf-file-converter.
 
+## Install
+
+```
+npm i jspdf-html2canvas
+```
+
+```js
+// import module function
+import html2PDF from 'jspdf-html2canvas';
+// or
+const html2PDF = require('jspdf-html2canvas');
+```
+
 ## html2PDF(DOM, options)
 
 convert specific DOM target to print it into PDF file.
@@ -27,7 +40,7 @@ let page = document.getElementById('page');
 
 btn.addEventListener('click', function(){
   html2PDF(page, {
-    customFont: 'chinese'
+    customFont: 'chinese' // be noted to first import chinese font module before you use this
   });
 });
 ```
@@ -37,7 +50,9 @@ btn.addEventListener('click', function(){
 if you want to use chinese unicode font, be noted to import the js font module in your file.
 
 ```js
-import 'node_modules/jsPDF-html2canvas/chinese-normal.js'
+import 'node_modules/jsPDF-html2canvas/chinese-normal.js';
+// or
+require('./node_modules/jspdf-html2canvas/chinese-normal.js');
 ```
 
 ## options
