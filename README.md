@@ -32,6 +32,14 @@ btn.addEventListener('click', function(){
 });
 ```
 
+## Chinese Unicode Font Support
+
+if you want to use chinese unicode font, be noted to import the js font module in your file.
+
+```js
+import 'node_modules/jsPDF-html2canvas/chinese-normal.js'
+```
+
 ## options
 
 - **jsPDF**
