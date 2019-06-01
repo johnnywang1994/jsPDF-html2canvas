@@ -40,19 +40,11 @@ let page = document.getElementById('page');
 
 btn.addEventListener('click', function(){
   html2PDF(page, {
-    customFont: 'chinese' // be noted to first import chinese font module before you use this
+    jsPDF: {},
+    imageType: 'image/jpeg',
+    output: './pdf/generate.pdf'
   });
 });
-```
-
-## Chinese Unicode Font Support
-
-if you want to use chinese unicode font, be noted to import the js font module in your file.
-
-```js
-import 'node_modules/jsPDF-html2canvas/chinese-normal.js';
-// or
-require('./node_modules/jspdf-html2canvas/chinese-normal.js');
 ```
 
 ## options
@@ -71,18 +63,6 @@ define the target imageType, now only support for jpeg, png, webp
 
 ```js
 let pageData = canvas.toDataURL(opts.imageType, 1.0);
-```
-
-- **customFont**
-
-define customFont if needed, eg: chinese's unicode, must be used with importing the font's js module.
-
-"chinese" font js file has been saved in modules folder, can be used directly.
-
-refer: https://rawgit.com/MrRio/jsPDF/master/fontconverter/fontconverter.html
-
-```js
-pdf.setFont(opts.customFont);
 ```
 
 - **output**
