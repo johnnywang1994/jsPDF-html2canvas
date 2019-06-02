@@ -1,8 +1,6 @@
 # jsPDF-html2canvas
 A combine usage with jsPDF &amp; html2canvas, which translating html content to PDF file.
 
-Also contains chinese unicode font js files, which is made by jsPDF's ttf-file-converter.
-
 ## Install
 
 ```
@@ -47,7 +45,7 @@ btn.addEventListener('click', function(){
 });
 ```
 
-## options
+## Options
 
 - **jsPDF**
 
@@ -76,3 +74,25 @@ pdf.save(opts.output);
 - **success**
 
 callback function to do after all code, default will save the file with the output name setting.
+
+## Defaults options
+
+```js
+options = {
+  jsPDF: {
+    unit: 'pt',
+    format: 'a4'
+  },
+  imageType: 'image/jpeg',
+  output: 'js.pdf', 
+  success: function(pdf) {
+    pdf.save(opts.output);
+  }
+}
+```
+
+## Recommend
+
+if you want more custom & widing solutions, you can use this npm package
+
+html2pdf: https://www.npmjs.com/package/html2pdf
