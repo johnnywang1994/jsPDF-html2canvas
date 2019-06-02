@@ -1,6 +1,6 @@
 {
   "name": "jspdf-html2canvas",
-  "version": "1.0.8",
+  "version": "1.1.0",
   "description": "A combine usage with jsPDF and html2canvas, which translating html content to PDF file.",
   "main": "index.js",
   "directories": {
