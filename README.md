@@ -95,4 +95,4 @@ options = {
 
 if you want more custom & widing solutions, you can use this npm package
 
-html2pdf: https://www.npmjs.com/package/html2pdf
+html2pdf: https://www.npmjs.com/package/html2pdf.js
