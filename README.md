@@ -1,6 +1,8 @@
 # jsPDF-html2canvas
 A combine usage with jsPDF &amp; html2canvas, which translating html content to PDF file.
 
+> html2PDF function ill auto fit the target dom width into PDF size. So no need to worry about the overflow part. And if the content height is over 1 pdf, it'll auto seperate it into another pdf page.
+
 ## Install
 
 ```
