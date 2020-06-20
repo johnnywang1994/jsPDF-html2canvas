@@ -1,2 +1,2 @@
-const html2PDF = require('./dist/bundle');
+const html2PDF = require('./src/js-pdf');
 module.exports = html2PDF;
