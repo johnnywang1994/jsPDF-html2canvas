@@ -38,7 +38,9 @@ let page = document.getElementById('page');
 
 btn.addEventListener('click', function(){
   html2PDF(page, {
-    jsPDF: {},
+    jsPDF: {
+      format: 'a4',
+    },
     imageType: 'image/jpeg',
     output: './pdf/generate.pdf'
   });
@@ -80,13 +82,18 @@ callback function to do after all code, default will save the file with the outp
 ```js
 options = {
   jsPDF: {
-    unit: 'pt',
-    format: 'a4'
+    unit: 'px',
+    format: 'a4',
+  },
+  html2canvas: {
+    imageTimeout: 15000,
+    logging: true,
+    useCORS: false,
   },
   imageType: 'image/jpeg',
   output: 'js.pdf', 
   success: function(pdf) {
-    pdf.save(opts.output);
+    pdf.save(this.output);
   }
 }
 ```
