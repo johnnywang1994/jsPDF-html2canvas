@@ -3,6 +3,12 @@
   "version": "1.1.0",
   "description": "A combine usage with jsPDF and html2canvas, which translating html content to PDF file.",
   "main": "index.js",
+  "scripts": {
+    "prebuild": "rm -rf ./dist",
+    "test": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --disable-host-check --host 0.0.0.0",
+    "dev": "cross-env NODE_ENV=development webpack --mode development",
+    "build": "cross-env NODE_ENV=production webpack --mode production"
+  },
   "directories": {
     "lib": "lib"
   },
@@ -20,5 +26,13 @@
   "bugs": {
     "url": "https://github.com/johnnywang1994/jsPDF-html2canvas/issues"
   },
-  "homepage": "https://github.com/johnnywang1994/jsPDF-html2canvas#readme"
+  "homepage": "https://github.com/johnnywang1994/jsPDF-html2canvas#readme",
+  "dependencies": {
+    "cross-env": "^7.0.2",
+    "html2canvas": "^1.0.0-rc.5",
+    "jspdf": "^1.5.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.12",
+    "webpack-dev-server": "^3.11.0"
+  }
 }
