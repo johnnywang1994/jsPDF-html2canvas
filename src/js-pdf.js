@@ -1,6 +1,8 @@
-const jsPDF = require('jspdf');
+const jspdf = require('jspdf');
 const html2canvas = require('html2canvas');
 const { defaultOpts } = require('./config');
+
+const { jsPDF } = jspdf;
 
 const images = function(type) {
   let types = {
@@ -16,7 +18,7 @@ function getPdf(opts) {
   const pdf = new jsPDF(opts.jsPDF);
   const pdfWidth = pdf.internal.pageSize.getWidth();
   const pdfHeight = pdf.internal.pageSize.getHeight();
-  const position = 0;
+  const position = 0; // page's start position
   return {
     pdf,
     pdfWidth,
@@ -42,18 +44,20 @@ function onCanvasRendered(canvas, pdfInstance, opts) {
 
   // height which not yet print to PDF.
   let leftHeight = imgHeight;
-  // each page's start position
-  // let position = 0;
+
+  // check if need reset position
+  if (position < 0) {
+    pdf.addPage();
+    position = 0;
+  }
 
   // check if content needs multi pages
   if (leftHeight < pdfHeight) {
-    if (position < 0) {
-      pdf.addPage();
-    }
     pdf.addImage(pageData, images(opts.imageType), 0, position, pdfWidth, imgHeight);
+    position -= leftHeight;
   } else {
     while (leftHeight > 0) {
-      pdf.addImage(pageData, images(opts.imageType), 0, position, pdfWidth, pdfHeight);
+      pdf.addImage(pageData, images(opts.imageType), 0, position, pdfWidth, imgHeight);
       leftHeight -= pdfHeight;
       position -= pdfHeight;
       // check if there's still left content
@@ -89,8 +93,8 @@ async function html2PDF(dom, opts = {}) {
   opts.success(pdfInstance.pdf);
 }
 
-if (window) {
-  window.html2PDF = html2PDF;
-}
+// if (window) {
+//   window.html2PDF = html2PDF;
+// }
 
 module.exports = html2PDF;

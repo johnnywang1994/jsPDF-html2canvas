@@ -7,45 +7,58 @@
   <title>Test</title>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
-    #page {
-
+    .page {
+      height: 300px;
+    }
+    .page-1 {
+      background: red;
+    }
+    .page-2 {
+      /* height: 200px; */
+      background: blue;
+    }
+    .page-3 {
+      /* height: 200px; */
+      background: yellow;
     }
   </style>
+  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
 </head>
 <body>
+  <button id="print-btn" class="btn btn-success m-5">生成PDF</button>
+
   <div id="page" style="width: 595.28px;color: black;background: white;">
-    <div class="page">
+    <div class="page page-1">
       <h3>Test page 1</h3>
       <p>This is an page for testing 1</p>
     </div>
-    <div class="page">
+    <div class="page page-2">
       <h3>Test page 2</h3>
       <p>This is an page for testing 1</p>
     </div>
-    <div class="page">
+    <div class="page page-3">
       <h3>Test page 3</h3>
       <p>This is an page for testing 1</p>
     </div>
   </div>
 
-  <button id="print-btn" class="btn btn-success m-5">生成PDF</button>
-
-  <script src="dist/bundle.js"></script>
+  <script src="dist/js-pdf.min.js"></script>
   <script>
   
   document.getElementById('print-btn').addEventListener('click', function() {
     // one page
-    // html2PDF(document.getElementById('page'), {
-    //   jsPDF: {
-    //     format: 'b5',
-    //   }
-    // })
-    // multi page
-    html2PDF(document.getElementsByClassName('page'), {
+    html2PDF(document.getElementById('page'), {
       jsPDF: {
         format: 'b5',
       }
     })
+    // multi page
+    // html2PDF(document.getElementsByClassName('page'), {
+    //   jsPDF: {
+    //     format: 'b5',
+    //   }
+    // })
   });
   </script>
 </body>

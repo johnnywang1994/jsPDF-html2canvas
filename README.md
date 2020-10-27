@@ -1,9 +1,12 @@
 # jsPDF-html2canvas
 A combine usage with jsPDF &amp; html2canvas, which translating html content to PDF file.
 
-> html2PDF function ill auto fit the target dom width into PDF size. So no need to worry about the overflow part. And if the content height is over 1 pdf, it'll auto seperate it into another pdf page.
+> html2PDF function will auto fit the target dom width into PDF size. So no need to worry about the overflow part. And if the content height is over 1 pdf, it'll auto seperate it into another pdf page.
+
 
 ## Install
+
+Remember to install both `jspdf` & `html2canvas` to latest version before using this plugin.
 
 ```
 npm i jspdf-html2canvas
@@ -16,13 +19,19 @@ import html2PDF from 'jspdf-html2canvas';
 const html2PDF = require('jspdf-html2canvas');
 ```
 
+since this plugin is an umd module, you can also use by cdn with `/dist/js-pdf.min.js`, just remember to include both `jspdf` & `html2canvas` cdn before this plugin.
+
+```js
+<script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
+```
+
+
 ## html2PDF(DOM, options)
 
 convert specific DOM target to print it into PDF file.
 
-Automatically, it'll save the file, or you can define the success function to do with the
-
-jsPDF instance.
+Automatically, it'll save the file, or you can define the success function to do with the jsPDF instance.
 
 ```html
 <!-- default a4's width is 595.28px -->
@@ -49,11 +58,49 @@ btn.addEventListener('click', function(){
 });
 ```
 
+## Custom multiple page supported
+
+There might be some situation you want to print DOM seperately, just easily give the nodeList with `length` in it, will adjust every nodes inside seperately into a new page in the same PDF output.
+
+for example:
+
+```html
+<div id="page" style="width: 595.28px;color: black;background: white;">
+  <div class="page page-1">
+    <h3>Test page 1</h3>
+    <p>This is an page for testing 1</p>
+  </div>
+  <div class="page page-2">
+    <h3>Test page 2</h3>
+    <p>This is an page for testing 1</p>
+  </div>
+  <div class="page page-3">
+    <h3>Test page 3</h3>
+    <p>This is an page for testing 1</p>
+  </div>
+</div>
+```
+
+```js
+const pages = document.getElementsByClassName('page');
+
+btn.addEventListener('click', function(){
+  html2PDF(pages, {
+    jsPDF: {
+      format: 'a4',
+    },
+    imageType: 'image/jpeg',
+    output: './pdf/generate.pdf'
+  });
+});
+```
+
+
 ## Options
 
 - **jsPDF**
 
-setting for creating jsPDF's instance
+setting for creating jsPDF's instance, please ref to [JSPDF Documentation](http://raw.githack.com/MrRio/jsPDF/master/docs/)
 
 ```js
 let doc = new jsPDF(opts.jsPDF);
@@ -63,7 +110,13 @@ let doc = new jsPDF(opts.jsPDF);
 
 define the target imageType, now only support for jpeg, png, webp
 
+allowed value
+  - `image/jpeg`
+  - `image/png`
+  - `image/webp`
+
 ```js
+// will be used like
 let pageData = canvas.toDataURL(opts.imageType, 1.0);
 ```
 
@@ -99,6 +152,7 @@ options = {
   }
 }
 ```
+
 
 ## Recommend
 
