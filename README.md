@@ -6,8 +6,6 @@ A combine usage with jsPDF &amp; html2canvas, which translating html content to 
 
 ## Install
 
-Remember to install both `jspdf` & `html2canvas` to latest version before using this plugin.
-
 ```
 npm i jspdf-html2canvas
 ```
