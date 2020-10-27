@@ -6,7 +6,7 @@
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "test": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --disable-host-check --host 0.0.0.0",
-    "dev": "cross-env NODE_ENV=development webpack --mode development",
+    "dev": "cross-env NODE_ENV=development webpack --mode development --watch",
     "build": "cross-env NODE_ENV=production webpack --mode production"
   },
   "directories": {
