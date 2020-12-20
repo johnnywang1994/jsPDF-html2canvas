@@ -22,6 +22,7 @@ since this plugin is an umd module, you can also use by cdn with `/dist/js-pdf.m
 ```js
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jspdf-html2canvas@latest/dist/js-pdf.min.js"></script>
 ```
 
 
@@ -53,6 +54,17 @@ btn.addEventListener('click', function(){
     imageType: 'image/jpeg',
     output: './pdf/generate.pdf'
   });
+});
+```
+
+> If there's some white space on top of the outputed PDF file, it might caused by the scroll problem, just add some settings for `html2canvas` plugin as following. [see the reference](https://stackoverflow.com/questions/57936607/why-there-is-a-white-space-on-the-top-on-html2canvas)
+```js
+html2PDF(page, {
+  // ... other settings
+  html2canvas: {
+    scrollX: 0,
+    scrollY: -window.scrollY,
+  },
 });
 ```
 
