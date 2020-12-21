@@ -30,7 +30,7 @@ function getPdf(opts) {
 // canvas to DataUri
 function getPageData({ canvas, pdf, pdfWidth, opts }) {
   const pageData = canvas.toDataURL(opts.imageType, 1.0);
-  const imgProps= pdf.getImageProperties(pageData);
+  const imgProps = pdf.getImageProperties(pageData);
   const imgHeight = pdfWidth / imgProps.width * imgProps.height;
   return {
     pageData,
@@ -71,6 +71,58 @@ function onCanvasRendered(canvas, pdfInstance, opts) {
   return { pdf, position };
 }
 
+function addWaterMark(pdf, opts) {
+  const totalPages = pdf.internal.getNumberOfPages();
+  // image watermark
+  if (opts.watermarkImg) {
+    const waterProps = pdf.getImageProperties(opts.watermarkImg);
+    const ratio = opts.watermark.scale || 1;
+    for (i = 1; i <= totalPages; i++) {
+      pdf.setPage(i);
+      // custom handler with image
+      if (opts.watermark.src && opts.watermark.handler) {
+        opts.watermark.handler.call(opts, pdf, opts.watermarkImg);
+      } else {
+        // auto centeral watermark with ratio
+        pdf.addImage(
+          opts.watermarkImg,
+          'PNG',
+          (pdf.internal.pageSize.width - waterProps.width * ratio) / 2,
+          (pdf.internal.pageSize.height - waterProps.height * ratio) / 2,
+          waterProps.width * ratio,
+          waterProps.height * ratio
+        );
+      }
+    }
+  // custom function handler
+  } else if (typeof opts.watermark === 'function') {
+    for (i = 1; i <= totalPages; i++) {
+      pdf.setPage(i);
+      opts.watermark.call(opts, pdf);
+    }
+  } else {
+    console.warn('[jspdf-html2canvas] "watermark" option should be either "string" or "function" type.');
+  }
+  return pdf;
+}
+
+function useWaterMark(opts, callback) {
+  const watermarkImg = new Image();
+  const src = typeof opts.watermark === 'string'
+    ? opts.watermark
+    : opts.watermark.src;
+  // image watermark
+  if (src) {
+    watermarkImg.onload = function() {
+      callback(watermarkImg);
+    };
+    watermarkImg.crossOrigin = 'Anonymous';
+    watermarkImg.src = src;
+  } else {
+    callback();
+  }
+}
+
 async function html2PDF(dom, opts = {}) {
   opts = Object.assign(defaultOpts, opts);
   const pdfInstance = getPdf(opts);
@@ -88,13 +140,21 @@ async function html2PDF(dom, opts = {}) {
     const canvas = await html2canvas(dom, opts.html2canvas);
     onCanvasRendered(canvas, pdfInstance, opts);
   }
-  
-  // save pdf
-  opts.success(pdfInstance.pdf);
-}
 
-// if (window) {
-//   window.html2PDF = html2PDF;
-// }
+  // check watermark
+  if (opts.watermark) {
+    useWaterMark(opts, function(watermarkImg) {
+      if (watermarkImg) {
+        opts.watermarkImg = watermarkImg;
+      }
+      pdfInstance.pdf = addWaterMark(pdfInstance.pdf, opts);
+      // save pdf
+      opts.success.call(opts, pdfInstance.pdf);
+    });
+  } else {
+    // save pdf
+    opts.success.call(opts, pdfInstance.pdf);
+  }
+}
 
 module.exports = html2PDF;

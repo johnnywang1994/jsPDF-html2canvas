@@ -9,7 +9,7 @@ module.exports.defaultOpts = {
     useCORS: false,
   },
   imageType: 'image/jpeg',
-  output: 'js.pdf', 
+  output: 'jspdf-generate.pdf', 
   success: function(pdf) {
     pdf.save(this.output);
   }

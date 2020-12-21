@@ -26,7 +26,7 @@ since this plugin is an umd module, you can also use by cdn with `/dist/js-pdf.m
 ```
 
 
-## html2PDF(DOM, options)
+## html2PDF([Node, NodeList], options)
 
 convert specific DOM target to print it into PDF file.
 
@@ -108,29 +108,105 @@ btn.addEventListener('click', function(){
 
 ## Options
 
-- **jsPDF**
+### - jsPDF
+
+  - type: `Object`
+  - default:
+  ```js
+  {
+    unit: 'px',
+    format: 'a4'
+  }
+  ```
 
 setting for creating jsPDF's instance, please ref to [JSPDF Documentation](http://raw.githack.com/MrRio/jsPDF/master/docs/)
 
+
+### - html2canvas
+
+  - type: `Object`
+  - default:
+  ```js
+  {
+    imageTimeout: 15000,
+    logging: true,
+    useCORS: false
+  }
+  ```
+
+setting for `html2canvas` configs, please ref to [html2canvas Documentation](https://html2canvas.hertzen.com/documentation)
+
+
+### - watermark
+
+  - type: `String` | `Function` | `Object`
+  - optional
+
+setting for watermark in pdf, will add watermark into each pages of your outputed pdf file.
+
+each data type has different usage as following:
+
+#### datatype: `String` => image url
+create image watermark in the center of each page with default image scale size `1`, please use `.png` file for watermark.
+
 ```js
-let doc = new jsPDF(opts.jsPDF);
+html2PDF(page, {
+  watermark: './test.png',
+});
 ```
 
-- **imageType**
+#### datatype: `Function` => custom handler
+define custom handler to do things for each page of pdf file.
+
+```js
+html2PDF(page, {
+  watermark(pdf) {
+    // pdf: jsPDF instance
+    pdf.setTextColor('#ddd');
+    pdf.text(50, pdf.internal.pageSize.height - 30, 'Watermark');
+  },
+});
+```
+
+#### datatype: `Object` => custom handler or resize image watermark
+define image watermark with change `ratio`, or use custom `handler` to do with the image position.
+```js
+html2PDF(page, {
+  watermark: {
+    src: './test.png',
+    scale: 0.5
+  },
+});
+// or
+html2PDF(page, {
+  watermark: {
+    src: './test.png',
+    handler(pdf, imgNode) {
+      const props = pdf.getImageProperties(imgNode);
+      // do something...
+      pdf.addImage(imgNode, 'PNG', 0, 0, 40, 40);
+    },
+  },
+});
+```
+
+### - imageType
+
+  - type: `String`
+  - allowed: `image/jpeg`, `image/png`, `image/webp`
+  - default: `image/jpeg`
 
 define the target imageType, now only support for jpeg, png, webp
-
-allowed value
-  - `image/jpeg`
-  - `image/png`
-  - `image/webp`
 
 ```js
 // will be used like
 let pageData = canvas.toDataURL(opts.imageType, 1.0);
 ```
 
-- **output**
+### - output
+
+  - type: `String`
+  - default: `jspdf-generate.pdf`
 
 define name of the output PDF file
 
@@ -138,9 +214,18 @@ define name of the output PDF file
 pdf.save(opts.output);
 ```
 
-- **success**
+### - success
+
+  - type: `Function`
+  - default:
+  ```js
+  function(pdf) {
+    pdf.save(this.output);
+  }
+  ```
 
 callback function to do after all code, default will save the file with the output name setting.
+
 
 ## Defaults options
 
@@ -156,7 +241,7 @@ options = {
     useCORS: false,
   },
   imageType: 'image/jpeg',
-  output: 'js.pdf', 
+  output: 'jspdf-generate.pdf', 
   success: function(pdf) {
     pdf.save(this.output);
   }

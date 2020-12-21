@@ -8,18 +8,18 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
     .page {
-      height: 300px;
+      height: 500px;
     }
     .page-1 {
-      background: red;
+      background: rgba(255, 0, 0, 0.5);
     }
     .page-2 {
       /* height: 200px; */
-      background: blue;
+      background: rgba(0, 0, 255, 0.5);
     }
     .page-3 {
       /* height: 200px; */
-      background: yellow;
+      background: rgba(255, 255, 0, 0.5);
     }
   </style>
   <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
@@ -43,7 +43,7 @@
     </div>
   </div>
 
-  <script src="dist/js-pdf.min.js"></script>
+  <script src="dist/js-pdf.js"></script>
   <script>
   
   document.getElementById('print-btn').addEventListener('click', function() {
@@ -51,7 +51,16 @@
     html2PDF(document.getElementById('page'), {
       jsPDF: {
         format: 'b5',
-      }
+      },
+      imageType: 'image/png',
+      // watermark: {
+      //   src: './test.png',
+      //   ratio: 0.5
+      // },
+      // watermark(pdf) {
+      //   pdf.setTextColor('#ddd');
+      //   pdf.text(50, pdf.internal.pageSize.height - 30, 'Watermark');
+      // },
     })
     // multi page
     // html2PDF(document.getElementsByClassName('page'), {
