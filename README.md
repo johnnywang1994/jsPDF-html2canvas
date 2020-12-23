@@ -57,6 +57,17 @@ btn.addEventListener('click', function(){
 });
 ```
 
+you can easily `await` the method to wait for pdf generated.
+
+```js
+async function printPdf() {
+  const pdf = await html2PDF(page, {
+    // ...
+  });
+  // do something with pdf(jsPdf instance)
+}
+```
+
 > If there's some white space on top of the outputed PDF file, it might caused by the scroll problem, just add some settings for `html2canvas` plugin as following. [see the reference](https://stackoverflow.com/questions/57936607/why-there-is-a-white-space-on-the-top-on-html2canvas)
 ```js
 html2PDF(page, {

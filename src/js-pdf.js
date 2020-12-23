@@ -52,18 +52,15 @@ function onCanvasRendered(canvas, pdfInstance, opts) {
   }
 
   // check if content needs multi pages
-  if (leftHeight < pdfHeight) {
+  while (leftHeight > 0) {
     pdf.addImage(pageData, images(opts.imageType), 0, position, pdfWidth, imgHeight);
-    position -= leftHeight;
-  } else {
-    while (leftHeight > 0) {
-      pdf.addImage(pageData, images(opts.imageType), 0, position, pdfWidth, imgHeight);
+    if (leftHeight < pdfHeight) {
+      position -= leftHeight;
+      break;
+    } else {
       leftHeight -= pdfHeight;
       position -= pdfHeight;
-      // check if there's still left content
-      if (leftHeight > 0) {
-        pdf.addPage();
-      }
+      pdf.addPage();
     }
   }
 
@@ -155,6 +152,8 @@ async function html2PDF(dom, opts = {}) {
     // save pdf
     opts.success.call(opts, pdfInstance.pdf);
   }
+
+  return pdfInstance.pdf;
 }
 
 module.exports = html2PDF;
