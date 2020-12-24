@@ -39,7 +39,7 @@ function getPdf(opts) {
 
 // canvas to DataUri
 function getPageData({ canvas, pdf, pdfContentWidth, opts }) {
-  const pageData = canvas.toDataURL(opts.imageType, 1.0);
+  const pageData = canvas.toDataURL(opts.imageType, opts.imageQuality);
   const imgProps = pdf.getImageProperties(pageData);
   const imgHeight = pdfContentWidth / imgProps.width * imgProps.height;
   return {
@@ -124,6 +124,7 @@ function addWaterMark(pdf, opts) {
         const param = {
           pdf,
           pageNumber: i,
+          totalPageNumber: totalPages,
           imgNode: opts.watermarkImg,
         };
         opts.watermark.handler.call(opts, param);
@@ -146,6 +147,7 @@ function addWaterMark(pdf, opts) {
       const param = {
         pdf,
         pageNumber: i,
+        totalPageNumber: totalPages,
       };
       opts.watermark.call(opts, param);
     }
@@ -175,6 +177,8 @@ function useWaterMark(opts, callback) {
 async function html2PDF(dom, opts = {}) {
   opts = joinObject(defaultOpts, opts);
   const pdfInstance = getPdf(opts);
+  // init pdf
+  opts.init.call(opts, pdfInstance.pdf);
 
   // multi pages by nodes
   if (dom.length) {

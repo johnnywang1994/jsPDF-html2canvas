@@ -15,7 +15,9 @@ export const defaultOpts = {
     left: 0,
   },
   imageType: 'image/jpeg',
-  output: 'jspdf-generate.pdf', 
+  imageQuality: 1,
+  output: 'jspdf-generate.pdf',
+  init: function() {},
   success: function(pdf) {
     pdf.save(this.output);
   }

@@ -178,10 +178,10 @@ define custom handler to do things for each page of pdf file.
 
 ```js
 html2PDF(page, {
-  watermark({ pdf, pageNumber }) {
+  watermark({ pdf, pageNumber, totalPageNumber }) {
     // pdf: jsPDF instance
     pdf.setTextColor('#ddd');
-    pdf.text(50, pdf.internal.pageSize.height - 30, `Watermark, page: ${pageNumber}`);
+    pdf.text(50, pdf.internal.pageSize.height - 30, `Watermark, page: ${pageNumber}/${totalPageNumber}`);
   },
 });
 ```
@@ -199,7 +199,7 @@ html2PDF(page, {
 html2PDF(page, {
   watermark: {
     src: './test.png',
-    handler({ pdf, imgNode, pageNumber }) {
+    handler({ pdf, imgNode, pageNumber, totalPageNumber }) {
       const props = pdf.getImageProperties(imgNode);
       // do something...
       pdf.addImage(imgNode, 'PNG', 0, 0, 40, 40);
@@ -218,8 +218,17 @@ define the target imageType, now only support for jpeg, png, webp
 
 ```js
 // will be used like
-let pageData = canvas.toDataURL(opts.imageType, 1.0);
+let pageData = canvas.toDataURL(opts.imageType, opts.imageQuality);
 ```
+
+### - imageQuality
+
+  - type: `Number`
+  - allowed: `0 - 1`
+  - default: `1`
+
+define the image quality transfered from canvas
+
 
 ### - margin
 
@@ -240,12 +249,25 @@ define name of the output PDF file
 pdf.save(opts.output);
 ```
 
+### - init
+
+  - type: `Function`
+
+```js
+function init(pdf) {
+  pdf.setFont('Myfont');
+  pdf.setFontSize(10);
+}
+```
+
+define some init for jspdf initiating before printing
+
 ### - success
 
   - type: `Function`
   - default:
   ```js
-  function(pdf) {
+  function success(pdf) {
     pdf.save(this.output);
   }
   ```
@@ -274,6 +296,7 @@ const defaultOptions = {
     left: 0,
   },
   output: 'jspdf-generate.pdf', 
+  init: function() {},
   success: function(pdf) {
     pdf.save(this.output);
   }
