@@ -178,10 +178,10 @@ define custom handler to do things for each page of pdf file.
 
 ```js
 html2PDF(page, {
-  watermark(pdf) {
+  watermark({ pdf, pageNumber }) {
     // pdf: jsPDF instance
     pdf.setTextColor('#ddd');
-    pdf.text(50, pdf.internal.pageSize.height - 30, 'Watermark');
+    pdf.text(50, pdf.internal.pageSize.height - 30, `Watermark, page: ${pageNumber}`);
   },
 });
 ```
@@ -199,7 +199,7 @@ html2PDF(page, {
 html2PDF(page, {
   watermark: {
     src: './test.png',
-    handler(pdf, imgNode) {
+    handler({ pdf, imgNode, pageNumber }) {
       const props = pdf.getImageProperties(imgNode);
       // do something...
       pdf.addImage(imgNode, 'PNG', 0, 0, 40, 40);

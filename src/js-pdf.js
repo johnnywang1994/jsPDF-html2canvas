@@ -114,11 +114,16 @@ function addWaterMark(pdf, opts) {
   if (opts.watermarkImg) {
     const waterProps = pdf.getImageProperties(opts.watermarkImg);
     const ratio = opts.watermark.scale || 1;
-    for (i = 1; i <= totalPages; i++) {
+    for (let i = 1; i <= totalPages; i++) {
       pdf.setPage(i);
       // custom handler with image
       if (opts.watermark.src && opts.watermark.handler) {
-        opts.watermark.handler.call(opts, pdf, opts.watermarkImg);
+        const param = {
+          pdf,
+          pageNumber: i,
+          imgNode: opts.watermarkImg,
+        };
+        opts.watermark.handler.call(opts, param);
       } else {
         // auto centeral watermark with ratio
         pdf.addImage(
@@ -133,9 +138,13 @@ function addWaterMark(pdf, opts) {
     }
   // custom function handler
   } else if (typeof opts.watermark === 'function') {
-    for (i = 1; i <= totalPages; i++) {
+    for (let i = 1; i <= totalPages; i++) {
       pdf.setPage(i);
-      opts.watermark.call(opts, pdf);
+      const param = {
+        pdf,
+        pageNumber: i,
+      };
+      opts.watermark.call(opts, param);
     }
   } else {
     console.warn('[jspdf-html2canvas] "watermark" option should be either "string" or "function" type.');
