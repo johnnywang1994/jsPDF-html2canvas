@@ -21,6 +21,7 @@ function getPdf(opts) {
   const pdfWidth = pdf.internal.pageSize.getWidth();
   const pdfHeight = pdf.internal.pageSize.getHeight();
   const pdfContentWidth = pdfWidth - (margin.left + margin.right);
+  const pdfContentHeight = pdfHeight - (margin.top + margin.bottom);
   const position = 0; // page's start position
   const currentPage = 1; // current page number of total pdf
   const pageOfCurrentNode = 1; // current page of current node
@@ -29,6 +30,7 @@ function getPdf(opts) {
     pdfWidth,
     pdfHeight,
     pdfContentWidth,
+    pdfContentHeight,
     position,
     currentPage,
     pageOfCurrentNode,
@@ -50,6 +52,7 @@ function onCanvasRendered(canvas, pdfInstance, opts) {
   let {
     pdf,
     pdfContentWidth,
+    pdfContentHeight,
     pdfWidth,
     pdfHeight,
     position,
@@ -87,11 +90,11 @@ function onCanvasRendered(canvas, pdfInstance, opts) {
     pdf.rect(0, 0, pdfWidth, margin.top, 'F');
     pdf.rect(0, pdfHeight - margin.bottom, pdfWidth, margin.bottom, 'F');
     // check left content
-    if (leftHeight < pdfHeight) {
+    if (leftHeight < pdfContentHeight) {
       position -= leftHeight;
       break;
     } else {
-      leftHeight -= pdfHeight;
+      leftHeight -= pdfContentHeight;
       position -= pdfHeight;
       pdf.addPage();
       currentPage += 1;
