@@ -1,3 +1,10 @@
+<p align="center">
+  <a href="https://npmcharts.com/compare/jspdf-html2canvas?minimal=true"><img src="https://img.shields.io/npm/dm/jspdf-html2canvas.svg?sanitize=true" alt="Downloads"></a>
+  <a href="https://www.npmjs.com/package/jspdf-html2canvas"><img src="https://img.shields.io/npm/v/jspdf-html2canvas.svg?sanitize=true" alt="Version"></a>
+  <a href="https://www.jsdelivr.com/package/npm/jspdf-html2canvas"><img src="https://data.jsdelivr.com/v1/package/npm/jspdf-html2canvas/badge" /></a>
+  <a href="https://www.npmjs.com/package/jspdf-html2canvas"><img src="https://img.shields.io/npm/l/jspdf-html2canvas.svg?sanitize=true" alt="License"></a>
+</p>
+
 # jsPDF-html2canvas
 A combine usage with jsPDF &amp; html2canvas, which translating html content to PDF file.
 
