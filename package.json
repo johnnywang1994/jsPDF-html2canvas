@@ -2,8 +2,8 @@
   "name": "jspdf-html2canvas",
   "version": "1.4.4",
   "description": "A combine usage with jsPDF and html2canvas, which translating html content to PDF file.",
-  "main": "dist/js-pdf.min.js",
-  "module": "dist/js-pdf.min.js",
+  "main": "dist/jspdf-html2canvas.min.js",
+  "module": "dist/jspdf-html2canvas.min.js",
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "test": "cross-env NODE_ENV=development webpack-dev-server --inline --hot --disable-host-check --host 0.0.0.0",
