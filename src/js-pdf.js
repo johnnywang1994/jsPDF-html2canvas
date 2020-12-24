@@ -1,8 +1,9 @@
-const jspdf = require('jspdf');
-const html2canvas = require('html2canvas');
-const { defaultOpts } = require('./config');
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
+import { defaultOpts } from './config';
+import joinObject from './utils/joinObject';
 
-const { jsPDF } = jspdf;
+// const { jsPDF } = jspdf;
 
 const images = function(type) {
   let types = {
@@ -15,23 +16,30 @@ const images = function(type) {
 
 // ----- jsPDF -----
 function getPdf(opts) {
+  const { margin } = opts;
   const pdf = new jsPDF(opts.jsPDF);
   const pdfWidth = pdf.internal.pageSize.getWidth();
   const pdfHeight = pdf.internal.pageSize.getHeight();
+  const pdfContentWidth = pdfWidth - (margin.left + margin.right);
   const position = 0; // page's start position
+  const currentPage = 1; // current page number of total pdf
+  const pageOfCurrentNode = 1; // current page of current node
   return {
     pdf,
     pdfWidth,
     pdfHeight,
+    pdfContentWidth,
     position,
+    currentPage,
+    pageOfCurrentNode,
   };
 }
 
 // canvas to DataUri
-function getPageData({ canvas, pdf, pdfWidth, opts }) {
+function getPageData({ canvas, pdf, pdfContentWidth, opts }) {
   const pageData = canvas.toDataURL(opts.imageType, 1.0);
   const imgProps = pdf.getImageProperties(pageData);
-  const imgHeight = pdfWidth / imgProps.width * imgProps.height;
+  const imgHeight = pdfContentWidth / imgProps.width * imgProps.height;
   return {
     pageData,
     imgHeight,
@@ -39,21 +47,46 @@ function getPageData({ canvas, pdf, pdfWidth, opts }) {
 }
 
 function onCanvasRendered(canvas, pdfInstance, opts) {
-  let { pdf, pdfWidth, pdfHeight, position } = pdfInstance;
-  const { pageData, imgHeight } = getPageData({ canvas, pdf, pdfWidth, opts });
+  let {
+    pdf,
+    pdfContentWidth,
+    pdfWidth,
+    pdfHeight,
+    position,
+    currentPage,
+    pageOfCurrentNode } = pdfInstance;
+  const { pageData, imgHeight } = getPageData({ canvas, pdf, pdfContentWidth, opts });
 
   // height which not yet print to PDF.
   let leftHeight = imgHeight;
 
-  // check if need reset position
+  // check if need reset position(change node)
   if (position < 0) {
     pdf.addPage();
+    currentPage += 1;
+    pageOfCurrentNode = 1;
     position = 0;
   }
 
   // check if content needs multi pages
+  const { margin } = opts;
   while (leftHeight > 0) {
-    pdf.addImage(pageData, images(opts.imageType), 0, position, pdfWidth, imgHeight);
+    // add content
+    pdf.addImage(
+      pageData,
+      images(opts.imageType),
+      margin.left,
+      position +
+        margin.top * pageOfCurrentNode +
+        margin.bottom * (pageOfCurrentNode - 1),
+      pdfContentWidth,
+      imgHeight,
+    );
+    // add margin top/bottom
+    pdf.setFillColor(255, 255, 255);
+    pdf.rect(0, 0, pdfWidth, margin.top, 'F');
+    pdf.rect(0, pdfHeight - margin.bottom, pdfWidth, margin.bottom, 'F');
+    // check left content
     if (leftHeight < pdfHeight) {
       position -= leftHeight;
       break;
@@ -61,10 +94,17 @@ function onCanvasRendered(canvas, pdfInstance, opts) {
       leftHeight -= pdfHeight;
       position -= pdfHeight;
       pdf.addPage();
+      currentPage += 1;
+      pageOfCurrentNode += 1;
     }
   }
 
-  // expose pdf for later usage
+  // expose for next round
+  pdfInstance.pdf = pdf;
+  pdfInstance.position = position;
+  pdfInstance.currentPage = currentPage;
+  pdfInstance.pageOfCurrentNode = pageOfCurrentNode;
+
   return { pdf, position };
 }
 
@@ -121,16 +161,14 @@ function useWaterMark(opts, callback) {
 }
 
 async function html2PDF(dom, opts = {}) {
-  opts = Object.assign(defaultOpts, opts);
+  opts = joinObject(defaultOpts, opts);
   const pdfInstance = getPdf(opts);
 
   // multi pages by nodes
   if (dom.length) {
     for (let i = 0; i < dom.length; i++) {
       const canvas = await html2canvas(dom[i], opts.html2canvas);
-      const { pdf, position } = onCanvasRendered(canvas, pdfInstance, opts);
-      pdfInstance.pdf = pdf;
-      pdfInstance.position = position;
+      onCanvasRendered(canvas, pdfInstance, opts);
     }
   } else {
     // single page for one node
@@ -156,4 +194,4 @@ async function html2PDF(dom, opts = {}) {
   return pdfInstance.pdf;
 }
 
-module.exports = html2PDF;
+export default html2PDF;

@@ -1,4 +1,4 @@
-module.exports.defaultOpts = {
+export const defaultOpts = {
   jsPDF: {
     unit: 'px',
     format: 'a4',
@@ -7,6 +7,12 @@ module.exports.defaultOpts = {
     imageTimeout: 15000,
     logging: true,
     useCORS: false,
+  },
+  margin: {
+    right: 0,
+    top: 0,
+    bottom: 0,
+    left: 0,
   },
   imageType: 'image/jpeg',
   output: 'jspdf-generate.pdf', 

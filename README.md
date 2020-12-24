@@ -214,6 +214,14 @@ define the target imageType, now only support for jpeg, png, webp
 let pageData = canvas.toDataURL(opts.imageType, 1.0);
 ```
 
+### - margin
+
+  - type: `Object{key => number}`
+  - allowed key: `top`, `right`, `bottom`, `left`
+  - default: `0`
+
+define the margin of each page
+
 ### - output
 
   - type: `String`
@@ -241,7 +249,7 @@ callback function to do after all code, default will save the file with the outp
 ## Defaults options
 
 ```js
-options = {
+const defaultOptions = {
   jsPDF: {
     unit: 'px',
     format: 'a4',
@@ -252,6 +260,12 @@ options = {
     useCORS: false,
   },
   imageType: 'image/jpeg',
+  margin: {
+    top: 0,
+    right: 0,
+    bottom: 0,
+    left: 0,
+  },
   output: 'jspdf-generate.pdf', 
   success: function(pdf) {
     pdf.save(this.output);

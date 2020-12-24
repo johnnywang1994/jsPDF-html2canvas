@@ -7,13 +7,23 @@ module.exports = {
   entry: path.join(__dirname, 'src/js-pdf.js'),
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: isProd ? 'js-pdf.min.js' : 'js-pdf.js',
+    filename: isProd ? 'jspdf-html2canvas.min.js' : 'jspdf-html2canvas.js',
     library: {
       root: 'html2PDF',
       amd: 'jspdf-html2canvas',
       commonjs: 'jspdf-html2canvas'
     },
-    libraryTarget: 'umd'
+    libraryTarget: 'umd',
+    libraryExport: 'default'
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader',
+        include: path.join(__dirname, 'src')
+      }
+    ]
   },
   externals: {
     jspdf: 'jspdf',

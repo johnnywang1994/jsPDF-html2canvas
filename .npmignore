@@ -1,4 +1,6 @@
 index.html
 test.png
+content.jpg
 webpack.config.js
 /src/
+.babelrc
