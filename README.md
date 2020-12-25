@@ -18,13 +18,12 @@ npm i jspdf-html2canvas
 ```
 
 ```js
-// import module function
 import html2PDF from 'jspdf-html2canvas';
-// or
-const html2PDF = require('jspdf-html2canvas');
+
+html2PDF(node, options);
 ```
 
-since this plugin is an umd module, you can also use by cdn with `/dist/js-pdf.min.js`, just remember to include both `jspdf` & `html2canvas` cdn before this plugin.
+since this plugin is an umd module, you can also use by cdn with `/dist/jspdf-html2canvas.min.js`, just remember to include both `jspdf` & `html2canvas` cdn before this plugin.
 
 ```js
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
@@ -37,7 +36,7 @@ since this plugin is an umd module, you can also use by cdn with `/dist/js-pdf.m
 
 convert specific DOM target to print it into PDF file.
 
-Automatically, it'll save the file, or you can define the success function to do with the jsPDF instance.
+Automatically, it'll save the file, or you can define the `success` callback to do with the jsPDF instance.
 
 ```html
 <!-- default a4's width is 595.28px -->
@@ -289,6 +288,7 @@ const defaultOptions = {
     useCORS: false,
   },
   imageType: 'image/jpeg',
+  imageQuality: 1,
   margin: {
     top: 0,
     right: 0,
