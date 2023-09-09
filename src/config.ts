@@ -1,6 +1,8 @@
-export const defaultOpts = {
+import type { Options } from './types';
+
+export const defaultOpts: Options = {
   jsPDF: {
-    unit: 'px',
+    unit: 'pt',
     format: 'a4',
   },
   html2canvas: {
@@ -16,7 +18,9 @@ export const defaultOpts = {
   },
   imageType: 'image/jpeg',
   imageQuality: 1,
+  autoResize: true,
   output: 'jspdf-generate.pdf',
+  watermark: undefined,
   init: function() {},
   success: function(pdf) {
     pdf.save(this.output);

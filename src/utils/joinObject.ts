@@ -1,12 +1,12 @@
-function isObject(v) {
+function isObject(v: unknown) {
   return v !== null && typeof v === 'object';
 }
 
-function isFn(v) {
+function isFn(v: unknown) {
   return typeof v === 'function';
 }
 
-export default function joinObject(obj1, obj2) {
+export default function joinObject<T>(obj1: any, obj2: any): T {
   for (let i = 0, keys = Object.keys(obj1); i < keys.length; i++) {
     const key = keys[i];
     if (key in obj2) {

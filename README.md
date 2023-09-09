@@ -6,7 +6,7 @@
 </p>
 
 # jsPDF-html2canvas
-A combine usage with jsPDF &amp; html2canvas, which translating html content to PDF file.
+A combine usage with jsPDF &amp; html2canvas, which translating html content to PDF file. Written in Typescript.
 
 > html2PDF function will auto fit the target dom width into PDF size. So no need to worry about the overflow part. And if the content height is over 1 pdf, it'll auto seperate it into another pdf page.
 
@@ -131,7 +131,7 @@ btn.addEventListener('click', function(){
   - default:
   ```js
   {
-    unit: 'px',
+    unit: 'pt',
     format: 'a4'
   }
   ```
@@ -236,6 +236,13 @@ define the image quality transfered from canvas
   - default: `0`
 
 define the margin of each page
+
+### - autoResize
+
+  - type: `Boolean`
+  - default: `true`
+
+define whether to auto resize the snapshot image to fit PDF layout size
 
 ### - output
 

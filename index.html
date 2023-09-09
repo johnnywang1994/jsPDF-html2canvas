@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Test</title>
+  <script src="https://cdn.tailwindcss.com"></script>
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
     .page {
@@ -34,7 +35,7 @@
     }
   </style>
   <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body>
   <button id="print-btn" class="btn btn-success m-5">生成PDF</button>
@@ -56,6 +57,12 @@
         <h3>Test page 3</h3>
         <p>This is an page for testing 3</p>
       </div>
+      <div class="grid grid-cols-2">
+        <div>1</div>
+        <div>2</div>
+        <div>3</div>
+        <div>4</div>
+      </div>
     </div>
     <!--2nd-->
     <div id="second">
@@ -75,27 +82,26 @@
     </div>
   </div>
 
-  <script src="dist/jspdf-html2canvas.js"></script>
+  <script src="dist/jspdf-html2canvas.min.js"></script>
   <script>
-  
   document.getElementById('print-btn').addEventListener('click', function() {
     // one page
     // html2PDF(document.getElementById('page'), {
-    //   jsPDF: {
-    //     format: 'b5',
-    //   },
-    //   imageType: 'image/png',
-    //   margin: {
-    //     top: 30,
-    //     right: 10,
-    //     bottom: 30,
-    //     left: 10,
-    //   },
+      // jsPDF: {
+      //   format: 'b5',
+      // },
+      // imageType: 'image/png',
+      // margin: {
+      //   top: 30,
+      //   right: 10,
+      //   bottom: 30,
+      //   left: 10,
+      // },
       // watermark: {
       //   src: './test.png',
       //   ratio: 0.5
       // },
-      // watermark(pdf) {
+      // watermark({ pdf }) {
       //   pdf.setTextColor('#ddd');
       //   pdf.text(50, pdf.internal.pageSize.height - 30, 'Watermark');
       // },
@@ -105,15 +111,20 @@
       document.getElementById('first'),
       document.getElementById('second'),
     ], {
-      jsPDF: {
-        format: 'b5',
-      },
+      // jsPDF: {
+      //   format: 'b5',
+      // },
       margin: {
         top: 30,
         right: 10,
         bottom: 30,
         left: 10,
       },
+      html2canvas: {
+        scrollY: 0,
+        scrollX: 0,
+      },
+      // autoResize: true,
     })
   });
   </script>

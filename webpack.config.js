@@ -4,7 +4,7 @@ const isProd = process.env.NODE_ENV === 'production';
 
 module.exports = {
   mode: process.env.NODE_ENV,
-  entry: path.join(__dirname, 'src/js-pdf.js'),
+  entry: path.join(__dirname, 'src/index.ts'),
   output: {
     path: path.join(__dirname, 'dist'),
     filename: isProd ? 'jspdf-html2canvas.min.js' : 'jspdf-html2canvas.js',
@@ -16,12 +16,15 @@ module.exports = {
     libraryTarget: 'umd',
     libraryExport: 'default'
   },
+  resolve: {
+    extensions: [".ts", ".js"],
+    alias: { '@': path.join(__dirname, 'src') },
+  },
   module: {
     rules: [
       {
-        test: /\.js$/,
-        loader: 'babel-loader',
-        include: path.join(__dirname, 'src')
+        test: /\.ts$/,
+        loader: 'ts-loader'
       }
     ]
   },
