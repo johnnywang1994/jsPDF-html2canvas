@@ -27,7 +27,7 @@ since this plugin is an umd module, you can also use by cdn with `/dist/jspdf-ht
 
 ```js
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.0.0-rc.7/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf-html2canvas@latest/dist/jspdf-html2canvas.min.js"></script>
 ```
 
@@ -286,7 +286,7 @@ callback function to do after all code, default will save the file with the outp
 ```js
 const defaultOptions = {
   jsPDF: {
-    unit: 'px',
+    unit: 'pt',
     format: 'a4',
   },
   html2canvas: {
@@ -302,7 +302,9 @@ const defaultOptions = {
     bottom: 0,
     left: 0,
   },
-  output: 'jspdf-generate.pdf', 
+  watermark: undefined,
+  autoResize: true,
+  output: 'jspdf-generate.pdf',
   init: function() {},
   success: function(pdf) {
     pdf.save(this.output);
