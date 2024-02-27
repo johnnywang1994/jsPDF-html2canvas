@@ -9,7 +9,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <style>
     .page {
-      height: 500px;
+      height: 700px;
     }
     .page img {
       max-width: 100%;
@@ -32,6 +32,19 @@
     .page-5 {
       /* height: 200px; */
       background: rgba(0, 0, 255, 0.5);
+    }
+
+    table {
+      width: 100%;
+    }
+    th, td {
+      width: 100px;
+    }
+    table, th, td {
+      border: 1px solid black;
+    }
+    tr {
+      height: 100px;
     }
   </style>
   <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
@@ -79,10 +92,36 @@
           </p>
         </p>
       </div>
+      <table>
+        <thead>
+          <tr>
+            <th>Title3</th>
+            <th>Title2</th>
+            <th>Title2</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Content1</td>
+            <td>Content1</td>
+            <td>Content1</td>
+          </tr>
+          <tr>
+            <td>Content1</td>
+            <td>Content1</td>
+            <td>Content1</td>
+          </tr>
+          <tr>
+            <td>Content1</td>
+            <td>Content1</td>
+            <td>Content1</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 
-  <script src="dist/jspdf-html2canvas.min.js"></script>
+  <script src="dist/jspdf-html2canvas.js"></script>
   <script>
   document.getElementById('print-btn').addEventListener('click', function() {
     // one page
@@ -123,6 +162,9 @@
       html2canvas: {
         scrollY: 0,
         scrollX: 0,
+      },
+      success(pdf) {
+        console.log(this);
       },
       // autoResize: true,
     })

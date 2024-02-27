@@ -55,7 +55,7 @@ async function html2PDF(
   await usePlugins(pdfInstance, _opts);
 
   // save pdf
-  _opts.success.call(opts, pdfInstance.pdf);
+  _opts.success.call(_opts, pdfInstance.pdf);
 
   return pdfInstance.pdf;
 }
