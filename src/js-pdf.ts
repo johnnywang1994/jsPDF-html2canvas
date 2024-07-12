@@ -1,5 +1,5 @@
 import { jsPDF } from 'jspdf';
-import html2canvas from 'html2canvas';
+import html2canvas from 'html2canvas-pro';
 import { defaultOpts } from './config';
 import renderCanvas from './render-canvas';
 import usePlugins from './plugins';

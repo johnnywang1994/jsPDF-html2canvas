@@ -30,6 +30,6 @@ module.exports = {
   },
   externals: {
     jspdf: 'jspdf',
-    html2canvas: 'html2canvas'
+    'html2canvas-pro': 'html2canvas'
   },
 }

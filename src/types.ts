@@ -1,5 +1,5 @@
 import type { jsPDF, jsPDFOptions } from 'jspdf';
-import type { Options as Html2CanvasOptions } from 'html2canvas';
+import type { Options as Html2CanvasOptions } from 'html2canvas-pro';
 
 type WaterMarkHandlerParam = {
   pdf: jsPDF;

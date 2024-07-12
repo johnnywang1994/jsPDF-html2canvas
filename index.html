@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -11,24 +12,30 @@
     .page {
       height: 700px;
     }
+
     .page img {
       max-width: 100%;
       margin-top: 50px;
     }
+
     .page-1 {
       background: rgba(255, 0, 0, 0.5);
     }
+
     .page-2 {
       /* height: 200px; */
       background: rgba(0, 0, 255, 0.5);
     }
+
     .page-3 {
       /* height: 200px; */
       background: rgba(255, 255, 0, 0.5);
     }
+
     .page-4 {
       background: rgba(255, 0, 0, 0.5);
     }
+
     .page-5 {
       /* height: 200px; */
       background: rgba(0, 0, 255, 0.5);
@@ -37,28 +44,36 @@
     table {
       width: 100%;
     }
-    th, td {
+
+    th,
+    td {
       width: 100px;
     }
-    table, th, td {
+
+    table,
+    th,
+    td {
       border: 1px solid black;
     }
+
     tr {
       height: 100px;
     }
   </style>
   <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@1.5.6/dist/html2canvas-pro.min.js"></script>
 </head>
+
 <body>
-  <button id="print-btn" class="btn btn-success m-5">生成PDF</button>
+  <button id="print-btn" class="btn btn-success m-5">生成 PDF</button>
 
   <div id="page" style="width: 595.28px;color: black;background: white;">
     <!--1st-->
     <div id="first">
       <div class="page page-1">
         <h3>Test page 1</h3>
-        <p>This is an page for testing 1, This is an page for testing 1, This is an page for testing 1, This is an page for testing 1</p>
+        <p>This is an page for testing 1, This is an page for testing 1, This is an page for testing 1, This is an page
+          for testing 1</p>
       </div>
       <div class="page page-2">
         <h3>Test page 2</h3>
@@ -87,9 +102,9 @@
         <h3>Test page 5</h3>
         <p>
           This is an page for testing 5
-          <p>
-            <img src="./content.jpg" />
-          </p>
+        <p>
+          <img src="./content.jpg" />
+        </p>
         </p>
       </div>
       <table>
@@ -123,9 +138,9 @@
 
   <script src="dist/jspdf-html2canvas.js"></script>
   <script>
-  document.getElementById('print-btn').addEventListener('click', function() {
-    // one page
-    // html2PDF(document.getElementById('page'), {
+    document.getElementById('print-btn').addEventListener('click', function () {
+      // one page
+      // html2PDF(document.getElementById('page'), {
       // jsPDF: {
       //   format: 'b5',
       // },
@@ -144,31 +159,32 @@
       //   pdf.setTextColor('#ddd');
       //   pdf.text(50, pdf.internal.pageSize.height - 30, 'Watermark');
       // },
-    // })
-    // multi page
-    html2PDF([
-      document.getElementById('first'),
-      document.getElementById('second'),
-    ], {
-      // jsPDF: {
-      //   format: 'b5',
-      // },
-      margin: {
-        top: 30,
-        right: 10,
-        bottom: 30,
-        left: 10,
-      },
-      html2canvas: {
-        scrollY: 0,
-        scrollX: 0,
-      },
-      success(pdf) {
-        console.log(this);
-      },
-      // autoResize: true,
-    })
-  });
+      // })
+      // multi page
+      html2PDF([
+        document.getElementById('first'),
+        document.getElementById('second'),
+      ], {
+        // jsPDF: {
+        //   format: 'b5',
+        // },
+        margin: {
+          top: 30,
+          right: 10,
+          bottom: 30,
+          left: 10,
+        },
+        html2canvas: {
+          scrollY: 0,
+          scrollX: 0,
+        },
+        success(pdf) {
+          console.log(this);
+        },
+        // autoResize: true,
+      })
+    });
   </script>
 </body>
+
 </html>
