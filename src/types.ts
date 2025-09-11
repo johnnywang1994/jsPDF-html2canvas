@@ -15,6 +15,9 @@ type WaterMarkOptions = {
   handler?: (param: WaterMarkHandlerParam) => void;
 } | ((param: Omit<WaterMarkHandlerParam, 'imgNode'>) => void) | string;
 
+// allowed image types
+export type ImagesType = 'image/jpeg' |'image/png' |'image/webp'
+
 export interface Options {
   jsPDF: Partial<jsPDFOptions>;
   html2canvas: Partial<Html2CanvasOptions>;
@@ -24,7 +27,7 @@ export interface Options {
     bottom: number;
     left: number;
   };
-  imageType: string;
+  imageType: ImagesType;
   imageQuality: number;
   output: string;
   autoResize: boolean;
