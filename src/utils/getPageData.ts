@@ -1,7 +1,7 @@
 import type { jsPDF } from 'jspdf';
 import type { Options } from '../types';
 
-const pixelRatio = window.devicePixelRatio;
+const pixelRatio = typeof window !== 'undefined' ? window.devicePixelRatio : 1;
 
 // canvas to DataUri
 function getPageData({ canvas, pdf, pdfContentWidth, opts }: {
@@ -10,7 +10,11 @@ function getPageData({ canvas, pdf, pdfContentWidth, opts }: {
   pdfContentWidth: number;
   opts: Options;
 }) {
-  const pageData = canvas.toDataURL(opts.imageType, opts.imageQuality);
+  if (!canvas || !canvas.toDataURL) {
+    throw new Error('[jspdf-html2canvas] Invalid canvas element');
+  }
+  const imageQuality = Math.max(0, Math.min(1, opts.imageQuality));
+  const pageData = canvas.toDataURL(opts.imageType, imageQuality);
   const imgProps = pdf.getImageProperties(pageData);
   const printWidth = !!opts.autoResize
     ? pdfContentWidth

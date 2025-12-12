@@ -14,11 +14,10 @@ export default function joinObject<T>(obj1: any, obj2: any): T {
       const isObject_2 = isObject(obj2[key]);
       if (isObject_1 && isObject_2) {
         if (isFn(obj1[key]) && isFn(obj2[key])) {
-          if (isFn(obj1[key]) && !isFn(obj2[key])) {
-            console.error(`[jspdf-html2canvas] config key "${key}" type invalid`);
-          } else {
-            obj1[key] = obj2[key];
-          }
+          // both are functions, replace
+          obj1[key] = obj2[key];
+        } else if (isFn(obj1[key]) && !isFn(obj2[key])) {
+          console.error(`[jspdf-html2canvas] config key "${key}" type invalid`);
         } else {
           obj1[key] = joinObject(obj1[key], obj2[key]);
         }

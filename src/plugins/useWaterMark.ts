@@ -55,7 +55,7 @@ function useWaterMark(
   pdfInstance: PdfInstance,
   opts: Options,
 ) {
-  return new Promise((resolve) => {
+  return new Promise((resolve, reject) => {
     const watermarkImg = new Image();
     const src = typeof opts.watermark === 'string'
       ? opts.watermark
@@ -70,10 +70,17 @@ function useWaterMark(
         opts.watermarkImg = watermarkImg;
         resolveWithWaterMark();
       };
+      watermarkImg.onerror = function(error) {
+        console.error('[jspdf-html2canvas] Failed to load watermark image:', src);
+        // Continue without watermark instead of blocking
+        resolve(null);
+      };
       watermarkImg.crossOrigin = 'Anonymous';
       watermarkImg.src = src;
     } else if (typeof opts.watermark === 'function') {
       resolveWithWaterMark();
+    } else {
+      resolve(null);
     }
   })
 }

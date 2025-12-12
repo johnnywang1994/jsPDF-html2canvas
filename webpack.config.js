@@ -9,12 +9,16 @@ module.exports = {
     path: path.join(__dirname, 'dist'),
     filename: isProd ? 'jspdf-html2canvas.min.js' : 'jspdf-html2canvas.js',
     library: {
-      root: 'html2PDF',
-      amd: 'jspdf-html2canvas',
-      commonjs: 'jspdf-html2canvas'
+      name: {
+        root: 'html2PDF',
+        amd: 'jspdf-html2canvas',
+        commonjs: 'jspdf-html2canvas'
+      },
+      type: 'umd',
+      export: 'default'
     },
-    libraryTarget: 'umd',
-    libraryExport: 'default'
+    globalObject: 'this',
+    clean: true
   },
   resolve: {
     extensions: [".ts", ".js"],
@@ -24,12 +28,26 @@ module.exports = {
     rules: [
       {
         test: /\.ts$/,
-        loader: 'ts-loader'
+        loader: 'ts-loader',
+        exclude: /node_modules/
       }
     ]
   },
   externals: {
-    jspdf: 'jspdf',
-    html2canvas: 'html2canvas'
+    jspdf: {
+      commonjs: 'jspdf',
+      commonjs2: 'jspdf',
+      amd: 'jspdf',
+      root: 'jspdf'
+    },
+    'html2canvas-pro': {
+      commonjs: 'html2canvas-pro',
+      commonjs2: 'html2canvas-pro',
+      amd: 'html2canvas-pro',
+      root: 'html2canvas'
+    }
   },
+  experiments: {
+    outputModule: false
+  }
 }

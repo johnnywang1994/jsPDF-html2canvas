@@ -6,9 +6,11 @@
 </p>
 
 # jsPDF-html2canvas
-A combine usage with jsPDF &amp; html2canvas, which translating html content to PDF file. Written in Typescript.
+A combine usage with jsPDF &amp; html2canvas-pro, which translating html content to PDF file. Written in Typescript.
 
 > html2PDF function will auto fit the target dom width into PDF size. So no need to worry about the overflow part. And if the content height is over 1 pdf, it'll auto seperate it into another pdf page.
+
+> **Note:** This package now uses `html2canvas-pro` instead of the original `html2canvas` for better performance and additional features.(version above v1.6.0)
 
 
 ## Install
@@ -23,11 +25,11 @@ import html2PDF from 'jspdf-html2canvas';
 html2PDF(node, options);
 ```
 
-since this plugin is an umd module, you can also use by cdn with `/dist/jspdf-html2canvas.min.js`, just remember to include both `jspdf` & `html2canvas` cdn before this plugin.
+since this plugin is an umd module, you can also use by cdn with `/dist/jspdf-html2canvas.min.js`, just remember to include both `jspdf` & `html2canvas-pro` cdn before this plugin.
 
 ```js
 <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@latest/dist/html2canvas-pro.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/jspdf-html2canvas@latest/dist/jspdf-html2canvas.min.js"></script>
 ```
 
@@ -74,7 +76,7 @@ async function printPdf() {
 }
 ```
 
-> If there's some white space on top of the outputed PDF file, it might caused by the scroll problem, just add some settings for `html2canvas` plugin as following. [see the reference](https://stackoverflow.com/questions/57936607/why-there-is-a-white-space-on-the-top-on-html2canvas)
+> If there's some white space on top of the outputed PDF file, it might caused by the scroll problem, just add some settings for `html2canvas-pro` plugin as following. [see the reference](https://stackoverflow.com/questions/57936607/why-there-is-a-white-space-on-the-top-on-html2canvas)
 ```js
 html2PDF(page, {
   // ... other settings
@@ -151,7 +153,7 @@ setting for creating jsPDF's instance, please ref to [JSPDF Documentation](http:
   }
   ```
 
-setting for `html2canvas` configs, please ref to [html2canvas Documentation](https://html2canvas.hertzen.com/documentation)
+setting for `html2canvas-pro` configs, please ref to [html2canvas-pro Documentation](https://yorickshan.github.io/html2canvas-pro/configuration.html)
 
 
 ### - watermark

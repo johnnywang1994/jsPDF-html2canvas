@@ -3,11 +3,19 @@
   "version": "1.5.2",
   "description": "A combine usage with jsPDF and html2canvas, which translating html content to PDF file.",
   "main": "dist/jspdf-html2canvas.min.js",
-  "module": "dist/jspdf-html2canvas.min.js",
+  "module": "dist/jspdf-html2canvas.esm.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/jspdf-html2canvas.esm.js",
+      "require": "./dist/jspdf-html2canvas.min.js",
+      "types": "./dist/index.d.ts"
+    }
+  },
   "scripts": {
     "prebuild": "rm -rf ./dist",
     "dev": "cross-env NODE_ENV=development webpack --mode development --watch",
-    "build": "cross-env NODE_ENV=production webpack --mode production",
+    "build": "cross-env NODE_ENV=production webpack --mode production && webpack --config webpack.esm.config.js",
     "ci": "yarn install --immutable --immutable-cache --check-cache"
   },
   "repository": {
@@ -17,7 +25,8 @@
   "keywords": [
     "npm",
     "jsPDF",
-    "html2canvas"
+    "html2canvas",
+    "html2canvas-pro"
   ],
   "author": "johnnywang",
   "license": "ISC",
@@ -25,16 +34,15 @@
     "url": "https://github.com/johnnywang1994/jsPDF-html2canvas/issues"
   },
   "homepage": "https://github.com/johnnywang1994/jsPDF-html2canvas#readme",
-  "types": "dist/index.d.ts",
   "dependencies": {
-    "html2canvas": "^1.4.1",
+    "html2canvas-pro": "^1.5.8",
     "jspdf": "^2.5.1"
   },
   "devDependencies": {
-    "cross-env": "^7.0.2",
-    "ts-loader": "^9.4.4",
-    "typescript": "^5.2.2",
-    "webpack": "^5.88.2",
-    "webpack-cli": "^5.1.4"
+    "cross-env": "^7.0.3",
+    "ts-loader": "^9.5.1",
+    "typescript": "^5.7.2",
+    "webpack": "^5.97.1",
+    "webpack-cli": "^6.0.1"
   }
 }
