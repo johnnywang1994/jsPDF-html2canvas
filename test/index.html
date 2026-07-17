@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>jsPDF-html2canvas Vue2 Test</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="./styles.css">
+  <script src="https://unpkg.com/vue@2.7.16/dist/vue.js"></script>
+  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/html2canvas-pro@latest/dist/html2canvas-pro.min.js"></script>
+</head>
+<body>
+  <div id="app" class="demo-shell">
+    <header class="hero">
+      <h1>jsPDF-html2canvas Vue2 local demo</h1>
+      <p>
+        This page uses Vue 2 so you can define test data, generated state, and helper methods in one place.
+        It is intended for manual verification of margin, page count, output, and watermark behavior.
+      </p>
+      <p class="small-note">
+        Build the package first so <code>../dist/jspdf-html2canvas.js</code> exists, then open this page and run the scenarios.
+      </p>
+      <ul class="meta-list">
+        <li>single node</li>
+        <li>multiple nodes</li>
+        <li>margin validation</li>
+        <li>issue #40 repro</li>
+        <li>watermark preview</li>
+      </ul>
+    </header>
+
+    <section class="scenario-grid">
+      <article v-for="scenario in scenarios" :key="scenario.key" class="scenario-card">
+        <div class="scenario-header">
+          <div>
+            <h2>{{ scenario.title }}</h2>
+            <p>{{ scenario.description }}</p>
+          </div>
+          <button
+            class="btn btn-primary"
+            :disabled="runningKey === scenario.key"
+            @click="generatePdf(scenario)"
+          >
+            {{ runningKey === scenario.key ? 'Generating...' : 'Generate PDF' }}
+          </button>
+        </div>
+
+        <div class="preview">
+          <div :id="scenario.targetId" class="pdf-target">
+            <template v-if="scenario.key === 'single'">
+              <div class="pdf-page">
+                <div class="page-label">Single page baseline</div>
+                <div class="content-grid">
+                  <div class="content-tile">
+                    <strong>Purpose</strong>
+                    <p>Validate the default output path, file naming, and page count for a simple single-node capture.</p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>Layout</strong>
+                    <p>This block uses a simple stacked layout with enough content to make the PDF output easy to inspect.</p>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <template v-else-if="scenario.key === 'margin'">
+              <div class="pdf-page">
+                <div class="page-label">Margin check</div>
+                <div class="content-grid">
+                  <div class="content-tile">
+                    <strong>Margin input</strong>
+                    <p>top: 30, right: 20, bottom: 42, left: 24</p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>What to look for</strong>
+                    <p>The PDF should leave visible blank space on every side, matching the configured margin values.</p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>Result expectation</strong>
+                    <p>The content should start lower and farther to the right than the baseline scenario, with a balanced page frame.</p>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <template v-else-if="scenario.key === 'multi'">
+              <section class="pdf-page">
+                <div class="page-label">First node</div>
+                <div class="content-grid two-up">
+                  <div class="content-tile">
+                    <strong>Node A</strong>
+                    <p>First block inside the NodeList. It is intentionally compact to make page transitions obvious.</p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>Node A detail</strong>
+                    <p>Keep an eye on the page start position when a new node begins after an existing page has been consumed.</p>
+                  </div>
+                </div>
+              </section>
+              <section class="pdf-page">
+                <div class="page-label">Second node</div>
+                <div class="content-grid">
+                  <div class="content-tile">
+                    <strong>Node B</strong>
+                    <p>This section contains a larger paragraph set so the output is easier to inspect when multiple pages are created.</p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>Long text</strong>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus
+                      ante dapibus diam. Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent
+                      mauris. Fusce nec tellus sed augue semper porta.
+                    </p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>More text</strong>
+                    <p>
+                      This scenario is useful for checking that the page count is still correct when the renderer handles a
+                      collection of nodes rather than a single element.
+                    </p>
+                  </div>
+                </div>
+              </section>
+            </template>
+
+            <template v-else-if="scenario.key === 'watermark'">
+              <div class="pdf-page">
+                <div class="page-label">Watermark sample</div>
+                <div class="content-grid">
+                  <div class="content-tile">
+                    <strong>Asset</strong>
+                    <p>Local image: <code>./test.png</code></p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>Verification</strong>
+                    <p>Confirms the watermark path resolves and the generated PDF keeps rendering even when the image is used.</p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>Tip</strong>
+                    <p>Open the generated PDF and verify the watermark is centered on the page as expected.</p>
+                  </div>
+                </div>
+              </div>
+            </template>
+
+            <template v-else-if="scenario.key === 'issue40'">
+              <div class="pdf-page">
+                <div class="page-label">Issue #40 repro</div>
+                <div class="content-grid">
+                  <div class="content-tile">
+                    <strong>Expected behavior</strong>
+                    <p>Every page after the first should keep the configured top margin, so the content does not stick to the top edge.</p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>Margin values</strong>
+                    <p>top: 30, right: 20, bottom: 60, left: 20</p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>Long content block 1</strong>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
+                      Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue
+                      semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Class aptent taciti sociosqu ad litora torquent per conubia
+                      nostra, per inceptos himenaeos.
+                    </p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>Long content block 2</strong>
+                    <p>
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio. Praesent libero. Sed cursus ante dapibus diam.
+                      Sed nisi. Nulla quis sem at nibh elementum imperdiet. Duis sagittis ipsum. Praesent mauris. Fusce nec tellus sed augue
+                      semper porta. Mauris massa. Vestibulum lacinia arcu eget nulla. Donec sit amet nibh. Vivamus volutpat eros pulvinar velit.
+                    </p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>Long content block 3</strong>
+                    <p>
+                      Phasellus fermentum in, dolor. Pellentesque facilisis. Nulla imperdiet sit amet magna. Vestibulum dapibus, mauris nec malesuada
+                      fames ac turpis velit, rhoncus eu, luctus et interdum adipiscing wisi. Aliquam erat ac ipsum. Integer aliquam purus.
+                    </p>
+                  </div>
+                  <div class="content-tile">
+                    <strong>Inspection hint</strong>
+                    <p>
+                      Open the generated PDF and compare the top whitespace on page 1, page 2, and page 3. The top margin should not disappear
+                      after the first page.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+
+        <div class="result-box">{{ scenario.result }}</div>
+        <a
+          class="result-link"
+          :href="scenario.pdfUrl || '#'"
+          v-show="!!scenario.pdfUrl"
+          target="_blank"
+          rel="noreferrer noopener"
+        >
+          Open generated PDF
+        </a>
+      </article>
+    </section>
+
+    <p class="small-note mt-4">
+      Note: this is a manual verification page. It does not assert pixel-perfect output, but it makes margin and page-count
+      changes easy to inspect without touching the library code.
+    </p>
+  </div>
+
+  <script src="../dist/jspdf-html2canvas.min.js"></script>
+  <script src="./app.js"></script>
+</body>
+</html>

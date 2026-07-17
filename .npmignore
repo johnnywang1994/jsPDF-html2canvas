@@ -3,4 +3,5 @@ test.png
 content.jpg
 webpack.config.js
 /src/
+/test/
 /.github/
